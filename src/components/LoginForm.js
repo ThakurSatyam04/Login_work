@@ -58,7 +58,7 @@ const LoginForm = ({setIsLoggedIn}) => {
 
   return (
     
-    <div
+    <form
       className="relative flex flex-col gap-y-4 mt-6"
     >
       <label className="w-full">
@@ -87,6 +87,7 @@ const LoginForm = ({setIsLoggedIn}) => {
           value={formData.password}
           onChange={changeHandler}
           placeholder="Password"
+          autoComplete="on"
           name="password"
           className=" rounded-[0.5rem] text-richblack-50 w-full p-[12px] border border-black-200"
           onKeyDown={handleKeyPress}
@@ -130,7 +131,7 @@ const LoginForm = ({setIsLoggedIn}) => {
           </Link>
         </div>
       </label>
-    </div>
+    </form>
   );
 };
 

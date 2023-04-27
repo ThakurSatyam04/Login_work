@@ -19,7 +19,7 @@ const SignupForm = ({setIsLoggedIn}) => {
         email:"",
         password:"",
         confirmpassword:"",
-        error:"Enter All Details",
+        error:"Enter All Details/ Username or Id Already Exist",
     })
 
     function changeHandler(event){
@@ -68,8 +68,7 @@ const SignupForm = ({setIsLoggedIn}) => {
             setSubmitButtonDisabled(false);
             console.log("error - ", error);
             setErrorMsg(formData.error);
-
-        });       
+        });  
     }     
     
     const handleKeyPress = (e) => {
@@ -82,7 +81,7 @@ const SignupForm = ({setIsLoggedIn}) => {
   return (
     <div>
 
-    <div >
+    <form>
 
         {/* firstname and lastname */}
         <div className="flex w-full gap-x-4">
@@ -143,6 +142,7 @@ const SignupForm = ({setIsLoggedIn}) => {
                 onChange={changeHandler}
                 placeholder="Enter password"
                 value={formData.password}
+                autoComplete="on"
                 className=" rounded-[0.5rem] text-richblack-50 w-full p-[12px]  border border-black-200"
                 onKeyDown={handleKeyPress}
             />
@@ -159,6 +159,7 @@ const SignupForm = ({setIsLoggedIn}) => {
                 name="confirmpassword"
                 onChange={changeHandler}
                 placeholder="confirm password"
+                autoComplete="on"
                 value={formData.confirmpassword}
                 className=" rounded-[0.5rem] text-richblack-50 w-full p-[12px]  border border-black-200"
                 onKeyDown={handleKeyPress}
@@ -177,7 +178,7 @@ const SignupForm = ({setIsLoggedIn}) => {
         disabled={submitButtonDisabled}>
             Create Account
         </button>
-    </div>
+    </form>
 
     <div className='text-center mt-2'>
         <p>Already have an account? <Link to='/login' className='text-blue-950 font-semibold'>Sign In</Link></p> 

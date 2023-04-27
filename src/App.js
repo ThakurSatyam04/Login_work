@@ -26,10 +26,10 @@ function App() {
   })
 
   return (
-    <div className="bg-gray-900">
+    <div className="bg-gray-900 h-screen">
         
       <Routes>
-      <Route path="/" element = {<Signup setIsLoggedIn={isLoggedIn}/>}/>
+      <Route path="/" element = {<Login setIsLoggedIn={setIsLoggedIn}/>}/>
       <Route path="/login" element = {<Login setIsLoggedIn = {setIsLoggedIn}/>}/>
       <Route path="/signup" element = {<Signup setIsLoggedIn = {setIsLoggedIn}/>}/>
       <Route path="/dashboard" element = {

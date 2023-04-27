@@ -1,6 +1,5 @@
 import React from 'react'
 import Templet from '../components/Templet';
-import loginImg from '../assets/login.png';
 import Logo from '../assets/Logo1.jpg.jpg'
 import LogoImg from '../assets/Logo2.svg.svg'
 
