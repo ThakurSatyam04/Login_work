@@ -4,6 +4,7 @@ import { useState } from 'react';
 import {toast} from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 
 
 const SignupForm = ({setIsLoggedIn}) => {
@@ -31,8 +32,6 @@ const SignupForm = ({setIsLoggedIn}) => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-    const [accountType, setAccountType] = useState("student")
-
     function submitHandler(event){
         event.preventDefault();
         if(formData.password != formData.confirmpassword){
@@ -40,27 +39,47 @@ const SignupForm = ({setIsLoggedIn}) => {
             return;
         }
 
-        setIsLoggedIn(true);
-        toast.success("Account created");
-        const accountData ={
-            ...formData
-        };
+        const auth = getAuth();
+            createUserWithEmailAndPassword(auth, formData.email, formData.password)
+            .then((userCredential) => {
+                const user = userCredential.user;
+                updateProfile(user,{
+                    displayName:formData.firstname
+                })
+                setIsLoggedIn(true);
+                toast.success("Account created");
+                navigate("/dashboard");
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+            });
 
-        const finalData ={
-            ...accountData,
-            accountType
-        }
+        
+        // const accountData ={
+        //     ...formData
+        // };
 
-        console.log("Printing final account data");
-        console.log(finalData);
+        // const finalData ={
+        //     ...accountData,
+        //     accountType
+        // }
 
-        navigate("/dashboard");
+        // console.log("Printing final account data");
+        // console.log(finalData);
+
+       
     }
+
+    // Firebase signup copied code
+
+
+            
 
   return (
     <div>
 
-    <form onSubmit={submitHandler}>
+    <div >
 
         {/* firstname and lastname */}
         <div className="flex w-full gap-x-4 mt-4">
@@ -142,10 +161,10 @@ const SignupForm = ({setIsLoggedIn}) => {
         </label>
         </div>
 
-        <button className=" w-full bg-yellow-50 rounded-[8px] font-medium text-richblack-900 px-[12px] py-[8px] mt-6">
+        <button className=" w-full bg-yellow-50 rounded-[8px] font-medium text-richblack-900 px-[12px] py-[8px] mt-6" onSubmit={submitHandler}>
             Create Account
         </button>
-    </form>
+    </div>
 
     <div className='text-center mt-2'>
         <p>Already have an account? <Link to='/login' className='text-yellow-500'>Sign In</Link></p> 
