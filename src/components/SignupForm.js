@@ -35,6 +35,7 @@ const SignupForm = ({setIsLoggedIn}) => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [errorMsg, setErrorMsg] = useState("");
+    const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
     const submitHandler = () => {
 
@@ -51,8 +52,10 @@ const SignupForm = ({setIsLoggedIn}) => {
             setErrorMsg("");
           }, 2000);
 
+        setSubmitButtonDisabled(true);
         createUserWithEmailAndPassword(auth, formData.email, formData.password)
-        .then(async (res) => { 
+        .then(async (res) => {
+            setSubmitButtonDisabled(false); 
             const user = res.user;
             await updateProfile(user,{
                 displayName:formData.firstname,
@@ -62,11 +65,19 @@ const SignupForm = ({setIsLoggedIn}) => {
             navigate("/dashboard");
         })
         .catch((error) => {
+            setSubmitButtonDisabled(false);
             console.log("error - ", error);
             setErrorMsg(formData.error);
 
         });       
-    }            
+    }     
+    
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          submitHandler(e);
+        }
+      };
 
   return (
     <div>
@@ -86,6 +97,7 @@ const SignupForm = ({setIsLoggedIn}) => {
                     placeholder="Enter first name"
                     value={formData.firstname}
                     className=" rounded-[0.5rem] text-richblack-50 w-full p-[12px]  border border-black-200"
+                    onKeyDown={handleKeyPress}
                 />
             </label>
 
@@ -99,6 +111,7 @@ const SignupForm = ({setIsLoggedIn}) => {
                     placeholder="Enter last name"
                     value={formData.lastname}
                     className=" rounded-[0.5rem] text-richblack-50 w-full p-[12px]  border border-black-200"
+                    onKeyDown={handleKeyPress}
                 />
             </label>
         </div>
@@ -114,6 +127,7 @@ const SignupForm = ({setIsLoggedIn}) => {
                 placeholder="Enter your email"
                 value={formData.email}
                 className=" rounded-[0.5rem] text-richblack-50 w-full p-[12px]  border border-black-200"
+                onKeyDown={handleKeyPress}
             />
         </label>
         </div>
@@ -130,6 +144,7 @@ const SignupForm = ({setIsLoggedIn}) => {
                 placeholder="Enter password"
                 value={formData.password}
                 className=" rounded-[0.5rem] text-richblack-50 w-full p-[12px]  border border-black-200"
+                onKeyDown={handleKeyPress}
             />
             <span className="absolute right-3 top-[38px] cursor-pointer" onClick={()=> setShowPassword((prev)=> !prev)}>
                 {showPassword? (<AiFillEyeInvisible fontSize={24} fill='#AFB2BF'/>):(<AiFillEye fontSize={24} fill='#AFB2BF'/>)}
@@ -146,23 +161,26 @@ const SignupForm = ({setIsLoggedIn}) => {
                 placeholder="confirm password"
                 value={formData.confirmpassword}
                 className=" rounded-[0.5rem] text-richblack-50 w-full p-[12px]  border border-black-200"
+                onKeyDown={handleKeyPress}
             />
             <span className="absolute right-3 top-[38px] cursor-pointer" onClick={()=> setShowConfirmPassword((prev)=> !prev)}>
                 {showConfirmPassword? (<AiFillEyeInvisible fontSize={24} fill='#AFB2BF'/>):(<AiFillEye fontSize={24} fill='#AFB2BF'/>)}
             </span>
         </label>
         </div>
-        <div className="text-red-500">
+        <div className="text-red-500 font-semibold">
             {errorMsg}
         </div>
 
-        <button className=" w-full bg-yellow-50 rounded-[8px] font-medium text-richblack-900 px-[12px] py-[8px] mt-6" onClick={submitHandler}>
+        <button className="disabled:bg-gray-600 w-full bg-yellow-50 rounded-[8px] font-medium text-richblack-900 px-[12px] py-[8px] mt-6" 
+        onClick={submitHandler}
+        disabled={submitButtonDisabled}>
             Create Account
         </button>
     </div>
 
     <div className='text-center mt-2'>
-        <p>Already have an account? <Link to='/login' className='text-yellow-500'>Sign In</Link></p> 
+        <p>Already have an account? <Link to='/login' className='text-blue-950 font-semibold'>Sign In</Link></p> 
     </div>
 
     </div>

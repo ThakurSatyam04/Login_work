@@ -5,25 +5,23 @@ import Datas from '../data.json';
 import { useState } from 'react';
 import classNames from 'classnames';
 
-const Dropdown = () => {
-
-const [display, setDisplay] = useState('');
+const Dropdown = (props) => {
 
 const handleClick=(e)=>{
    const text = e.target.textContent;
    Datas.map((data)=>{
     if(data.title.includes(text)){
-      console.log(data.Facts);
+      props.onClick(data);
     }
    })
    
-}
+  }
   return (
     <>
        <Menu as="div" className="relative text-center">
       <div>
-        <Menu.Button className="inline-flex w-[300px] justify-center gap-x-1.5 rounded-md mt-2 bg-gray-400 text-white px-3 py-2 text-sm font-semibold  shadow-sm ring-2 ring-inset ring-white hover:bg-gray-300 hover:text-gray-900">
-          Some Cases
+        <Menu.Button className="inline-flex ml-2 w-[190px] justify-center gap-x-1.5 rounded-md mt-2 bg-gray-400 text-white px-3 py-2 text-sm font-semibold  shadow-sm ring-2 ring-inset ring-white hover:bg-gray-300 hover:text-gray-900">
+          Cases
           <ChevronDownIcon className="-mr-1 h-5 w-5 text-white" aria-hidden="true" />
         </Menu.Button>
       </div>
@@ -111,7 +109,7 @@ const handleClick=(e)=>{
             </Menu.Item> 
           </div>
         </Menu.Items>
-      </Transition><hr className='mt-4'/>
+      </Transition><p className='mt-4'/>
     </Menu>
   </>
   )

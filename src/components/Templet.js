@@ -9,7 +9,7 @@ import LoginForm from './LoginForm';
 
 const Templet = ({title,image, formtype, setIsLoggedIn}) => {
   return (
-    <div className='flex h-4/5 w-4/5 shadow-xl res:flex-col'>
+    <div className='flex h-4/5 w-4/5 shadow-xl res:flex-col bg-gray-400'>
         <div className=" flex justify-center items-center w-1/2 wid:w-full">
           <img className="w-full h-full" src={image} alt="image"  width={200} height={200}/>
         </div>

@@ -26,7 +26,8 @@ function App() {
   })
 
   return (
-    <>
+    <div className="bg-gray-900">
+        
       <Routes>
       <Route path="/" element = {<Signup setIsLoggedIn={isLoggedIn}/>}/>
       <Route path="/login" element = {<Login setIsLoggedIn = {setIsLoggedIn}/>}/>
@@ -37,7 +38,7 @@ function App() {
         </PrivateRoute>
       }/>
       </Routes>
-    </>
+    </div>
   )
 }
 

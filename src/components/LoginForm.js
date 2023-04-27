@@ -27,8 +27,8 @@ const LoginForm = ({setIsLoggedIn}) => {
     }));
   }
 
-  const submitHandler = () =>  {
-    // e.preventDefault();
+  const submitHandler = (e) =>  {
+    e.preventDefault();
     setTimeout(() => {
       if (!formData.email || !formData.password) {
         setErrorMsg("");  
@@ -49,13 +49,21 @@ const LoginForm = ({setIsLoggedIn}) => {
     });
   } 
 
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      submitHandler(e);
+    }
+  };
+
   return (
+    
     <div
       className="relative flex flex-col gap-y-4 mt-6"
     >
       <label className="w-full">
         <p className="text-[0.875rem] text-richblack-500 mb-1 leading-[1.375rem] font-bold">
-          EMAIL ID<sup className="text-pink-200">*</sup>
+          EMAIL ID<sup className="text-red-700 text-md">*</sup>
         </p>
         <input
           required
@@ -65,12 +73,13 @@ const LoginForm = ({setIsLoggedIn}) => {
           placeholder="Username"
           name="email"
           className=" rounded-[0.5rem] text-richblack-50 w-full p-[12px]  border border-black-200"
+          onKeyDown={handleKeyPress}
         />
       </label>
 
       <label className="w-full relative">
         <p className="text-[0.875rem] text-richblack-500 mb-1 leading-[1.375rem] mt-3 font-bold">
-          PASSWORD<sup className="text-pink-200">*</sup>
+          PASSWORD<sup className="text-red-700 text-md">*</sup>
         </p>
         <input
           required
@@ -80,6 +89,7 @@ const LoginForm = ({setIsLoggedIn}) => {
           placeholder="Password"
           name="password"
           className=" rounded-[0.5rem] text-richblack-50 w-full p-[12px] border border-black-200"
+          onKeyDown={handleKeyPress}
         />
 
         <span
@@ -93,11 +103,11 @@ const LoginForm = ({setIsLoggedIn}) => {
           )}
         </span>
         
-        <div className="text-red-500">
+        <div className="text-red-500 font-semibold">
             {errorMsg}
         </div>
 
-        <button className="w-full bg-yellow-50 rounded-[8px] font-medium text-richblack-900 px-[12px] py-[8px] mt-6" onClick={submitHandler}>
+        <button className="w-full bg-yellow-50 rounded-[8px] font-medium text-richblack-900 px-[12px] py-[8px] mt-6" onClick={submitHandler} >
           Sign In
         </button>
 
@@ -107,15 +117,15 @@ const LoginForm = ({setIsLoggedIn}) => {
               type="checkbox"
               className="form-checkbox h-3 w-3 text-yellow-500 border-yellow-500 rounded-md m-3"
             />
-            <lebal className="text-yellow-50">Remember Me</lebal>
+            <lebal className="text-richblack-900">Remember Me</lebal>
           </div>
           <Link to="#">
-            <p className="text-xs mt-3 text-blue-100">Forgot Password</p>
+            <p className="text-2xs mt-2 text-richblack-900">Forgot Password?</p>
           </Link>
         </div>
         <div className="w-full mt-4 text-center">
           Not a member?{" "}
-          <Link to="/signup" className="text-yellow-50">
+          <Link to="/signup" className="text-blue-950 font-semibold">
             Sign Up
           </Link>
         </div>
