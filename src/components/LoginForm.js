@@ -4,16 +4,21 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase";
+
 
 const LoginForm = ({setIsLoggedIn}) => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    username: "",
+    email: "",
     password: "",
+    error:"Please Enter Correct Username or Password",
   });
 
   const [showPassword, setShowPassword] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+
 
   function changeHandler(event) {
     setFormData((prevData) => ({
@@ -22,23 +27,27 @@ const LoginForm = ({setIsLoggedIn}) => {
     }));
   }
 
-  function submitHandler(event) {
-    // event.preventDefault();
-    const auth = getAuth();
-    // Firebase copied code
+  const submitHandler = () =>  {
+    // e.preventDefault();
+    setTimeout(() => {
+      if (!formData.email || !formData.password) {
+        setErrorMsg("");  
+        return;
+      }
+      setErrorMsg("");
+    }, 2000);
+
     signInWithEmailAndPassword(auth, formData.email, formData.password)
-    .then((userCredential) => {
-      const user = userCredential.user;
-      setIsLoggedIn(true);
-      toast.success("Logged In");
-      navigate("/dashboard");
-      // window.localStorage.setItem("isLoggedIn", true);
+    .then((res) => { 
+        // const user = res.user;
+        setIsLoggedIn(true);
+        toast.success("logged In")
+        navigate("/dashboard")
     })
     .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
+    setErrorMsg(formData.error);
     });
-  }
+  } 
 
   return (
     <div
@@ -46,7 +55,7 @@ const LoginForm = ({setIsLoggedIn}) => {
     >
       <label className="w-full">
         <p className="text-[0.875rem] text-richblack-500 mb-1 leading-[1.375rem] font-bold">
-          USERNAME<sup className="text-pink-200">*</sup>
+          EMAIL ID<sup className="text-pink-200">*</sup>
         </p>
         <input
           required
@@ -83,6 +92,10 @@ const LoginForm = ({setIsLoggedIn}) => {
             <AiFillEye fontSize={24} fill="#AFB2BF" />
           )}
         </span>
+        
+        <div className="text-red-500">
+            {errorMsg}
+        </div>
 
         <button className="w-full bg-yellow-50 rounded-[8px] font-medium text-richblack-900 px-[12px] py-[8px] mt-6" onClick={submitHandler}>
           Sign In
